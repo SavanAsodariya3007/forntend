@@ -1,5 +1,6 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useTryLogin } from "./useTryLogin";
 
 const initialValues = {
   email: "",
@@ -14,6 +15,7 @@ const validationSchema = Yup.object({
 });
 
 export function useLoginForm() {
+  const { tryLogin } = useTryLogin();
   const formik = useFormik({
     initialValues,
     validationSchema,
@@ -21,7 +23,7 @@ export function useLoginForm() {
     validateOnChange: false,
     validateOnBlur: false,
     onSubmit: (values, { resetForm }) => {
-      console.log("values", values);
+      tryLogin({ ...values, callback: resetForm });
     },
   });
 
